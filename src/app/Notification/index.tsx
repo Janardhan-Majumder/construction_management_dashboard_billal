@@ -79,7 +79,7 @@ const Notification = () => {
     },
   ];
   return (
-    <div className="rounded-xl border border-secondery/50 shadow-xs py-4">
+    <div className="py-4">
       <PageHeading
         // backPath={"/auth"}
         title={"Notifications"}

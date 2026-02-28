@@ -5,7 +5,7 @@ const authApi = baseApi.injectEndpoints({
     getUserByToken: builder.query({
       query: () => {
         return {
-          url: `users/my-profile`,
+          url: `users/me`,
           method: "GET",
         };
       },
@@ -60,21 +60,21 @@ const authApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["auth"],
     }),
+    resendOTP: builder.mutation({
+      query: (body) => {
+        return {
+          url: `auth/resend-otp/${body.email}`,
+          method: "POST",
+        };
+      },
+    }),
+
     changePassword: builder.mutation({
       query: (body) => {
         return {
           url: `auth/change-password`,
           method: "POST",
           body,
-        };
-      },
-    }),
-
-    resendOTP: builder.mutation({
-      query: (body) => {
-        return {
-          url: `auth/resend-otp/${body.email}`,
-          method: "POST",
         };
       },
     }),

@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import type { TUserRole } from "../../types/common.type";
 import { cn } from "../../utils/cn";
 import { dashboardItems } from "../../constants/router.constants";
-import { Avatar } from "antd";
 import { handleImageError } from "../../lib/handleImageError";
 import { logout } from "../../redux/features/Auth/authSlice";
 
@@ -44,23 +43,17 @@ const Sidebar = () => {
     <div className="fixed top-0 left-0 w-62.5 2xl:w-70 min-h-screen h-full py-3.5 z-20">
       <div className="h-full flex flex-col justify-between drop-shadow-sm pt-px rounded-r-lg inset-shadow-2xs shadow-md">
         <div className="">
-          <div className="w-full flex flex-col items-center justify-center pt-6">
-            <Avatar
-              size={100}
-              shape="circle"
-              icon={
-                <img
-                  className="w-full"
-                  src={user?.profilePicture}
-                  alt=""
-                  onError={handleImageError}
-                />
-              }
+          <div className="w-full flex flex-col items-center justify-center p-6">
+            <img
+              className="w-full"
+              src={`/statics/logo.svg`}
+              alt=""
+              onError={handleImageError}
             />
-            <h4 className="text-sm font-semibold mt-3">{user?.name}</h4>
-            <span className="text-xs">Administrator</span>
+            {/* <h4 className="text-sm font-semibold mt-3">{user?.name}</h4>
+            <span className="text-xs">Administrator</span> */}
           </div>
-          <ul className=" max-h-[calc(100vh-265px)] overflow-y-auto space-y-1 mt-5">
+          <ul className=" max-h-[calc(100vh-220px)] overflow-y-auto space-y-1 mt-5">
             {routeLinkGenerators(dashboardItems, user?.role as TUserRole).map(
               ({ name, icon, path, children, rootPath }, indx) =>
                 children?.length ? (

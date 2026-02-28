@@ -1,54 +1,51 @@
-import { Typography } from "antd";
 import EarningBarChart from "../../components/dashboard/EarningChart";
-import TransactionList from "../../components/earnings/TransactionList";
 import StatusCart from "../../components/ui/StatusCart";
 import { useAdminStatusQuery } from "../../redux/features/others/othersApi";
 import { cn } from "../../utils/cn";
 import { formatTwoDigits } from "../../lib/helpers/getTwoDisit";
-const { Title } = Typography;
+import { CiDollar, CiMedicalCase } from "react-icons/ci";
+import { PiUsersThreeLight } from "react-icons/pi";
 
 const Home = () => {
   const { data, isLoading } = useAdminStatusQuery(undefined);
   const statusData = [
     {
-      category: "Total Earnings",
-      total: `$${formatTwoDigits({ num: data?.totalRevenue, allToString: true })}`,
+      iconBg: "#F58220",
+      icon: CiDollar,
+      category: "Total Sites",
+      total: `${formatTwoDigits({ num: data?.totalRevenue })}`,
     },
     {
+      iconBg: "#7FB036",
+      icon: PiUsersThreeLight,
       category: "Total Users",
       total: formatTwoDigits({ num: data?.totalUsers }),
     },
     {
-      category: "Withdrawable",
-      total: `$${formatTwoDigits({ num: data?.totalWithdrawals, allToString: true })}`,
-    },
-    {
-      category: "Total Drivers",
-      total: formatTwoDigits({ num: data?.totalDrivers }),
+      iconBg: "#03A188",
+      icon: CiMedicalCase,
+      category: "Total Projects",
+      total: `${formatTwoDigits({ num: data?.totalWithdrawals })}`,
     },
   ];
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-12 gap-4 2xl:gap-5">
-        <EarningBarChart className="col-span-8" />
+      <div className="space-y-4">
         <div
-          className={cn("col-span-4 grid grid-cols-2 gap-x-5 gap-y-8", {
+          className={cn("grid grid-cols-3 gap-x-5 2xl:gap-x-6 gap-y-8", {
             "opacity-60 animate-pulse": isLoading,
           })}
         >
-          {statusData.map((item, index) => (
+          {statusData.map((item, index: number) => (
             <StatusCart
-              key={item.category}
+              key={index}
               data={item}
-              className={index++ % 2 == 0 ? "bg-[#E6ECEA]" : undefined}
+              // className={index++ % 2 == 0 ? "bg-[#E6ECEA]" : undefined}
             />
           ))}
         </div>
+        <EarningBarChart className="mt-10 2xl:mt-16" />
       </div>
-      <Title level={3} className="text-brand! mt-10!">
-        Recent Transactions
-      </Title>
-      <TransactionList />
     </div>
   );
 };

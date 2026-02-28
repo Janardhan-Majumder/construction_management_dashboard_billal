@@ -8,7 +8,7 @@ const othersApi = baseApi.injectEndpoints({
       query: (args: TArgs) => {
         const params = buildQueryParams(args);
         return {
-          url: "admin/dashboard-stats",
+          url: "admin/dashboard-stats?year=2026",
           method: "GET",
           params,
         };

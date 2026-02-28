@@ -12,7 +12,7 @@ const AuthProvider = ({ children }: TCommonProps) => {
     if (!isLoading) {
       dispatch(
         setUser({
-          user: { ...data, role: data?.role?.[0] },
+          user: { ...data },
         }),
       );
     }

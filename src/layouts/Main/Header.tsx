@@ -3,6 +3,8 @@ import { Badge, Button } from "antd";
 import { useLocation, useNavigate } from "react-router";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { cn } from "../../utils/cn";
+import { handleImageError } from "../../lib/handleImageError";
+import { useAppSelector } from "../../redux/hooks";
 
 // const socket = io(`${import.meta.env.VITE_IMAGE_URL}`);
 
@@ -11,6 +13,7 @@ const Header = ({ className }: { className: string }) => {
   const location = useLocation();
   const notificationRef = useRef(null);
   const [notificationPopup, setNotificationPopup] = useState(false);
+  const { user } = useAppSelector((state) => state.auth);
   // const { total, notification } = useSelector((state) => state.notification);
   // const { data } = useAdminNotificationBadgeQuery(undefined, {
   //   refetchOnMountOrArgChange: true,
@@ -46,8 +49,9 @@ const Header = ({ className }: { className: string }) => {
         <div className="flex items-center gap-3">
           <div className="h-20 py-3">
             <img
-              src={"/statics/logo.jpg"}
-              alt=""
+              src={user?.profileImage!}
+              alt="image"
+              onError={handleImageError}
               className="w-full h-full object-cover rounded-full"
             />
           </div>
