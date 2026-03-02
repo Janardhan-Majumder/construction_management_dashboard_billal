@@ -43,6 +43,7 @@ const Header = ({ className }: { className: string }) => {
     if (hour < 18) return "Good afternoon";
     return "Good evening";
   };
+  // console.log(user)
   return (
     <div className={cn("w-full", className)}>
       <div className="w-full flex justify-between items-center px-4 relative max-w-[1920px] mx-auto bg-[#FEFEFE] shadow-sm rounded-lg">

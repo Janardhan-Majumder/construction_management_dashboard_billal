@@ -8,13 +8,13 @@ const othersApi = baseApi.injectEndpoints({
       query: (args: TArgs) => {
         const params = buildQueryParams(args);
         return {
-          url: "admin/dashboard-stats?year=2026",
+          url: "admin/dashboard-stats",
           method: "GET",
           params,
         };
       },
       transformResponse: (response) => response.data,
-      providesTags: ["transaction", "user"],
+      providesTags: [ "user"],
     }),
     // getWithdrawRequest: builder.query({
     //   query: (args) => {

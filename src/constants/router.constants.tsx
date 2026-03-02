@@ -3,28 +3,23 @@ import Notification from "../app/Notification";
 import type { DashboardItem } from "../types/sidebar.type";
 import { ROLE } from "../types/common.type";
 import { LuMonitorCog, LuSettings } from "react-icons/lu";
-import { RiShieldUserLine, RiUserSettingsFill } from "react-icons/ri";
-import { PiHandWithdrawBold } from "react-icons/pi";
+import { RiShieldUserLine } from "react-icons/ri";
 import {
-  MdContactSupport,
+  MdOutlineHistoryEdu,
   MdOutlineSecurityUpdateWarning,
-  MdVerified,
+  MdWorkspacePremium,
 } from "react-icons/md";
-import { GiReceiveMoney } from "react-icons/gi";
 import Settings from "../app/Settings/Settings";
-import { AiOutlineTransaction } from "react-icons/ai";
-import Transactions from "../app/Earnings/Transactions";
-import WithdrawReq from "../app/Earnings/WithdrawReq";
-import { HiOutlineUsers } from "react-icons/hi";
-import { TbUserShield } from "react-icons/tb";
-import RequestedLilst from "../app/Verification/RequestedLilst";
-import Support from "../app/Support/Support";
-import Users from "../app/Users/Users";
-import DriverDetails from "../components/users/DriverDetails";
+import { TbUsersGroup } from "react-icons/tb";
 import { FaServicestack } from "react-icons/fa6";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import Utils from "../app/Settings/Utils";
 import EditUtils from "../app/Settings/EditUtils";
+import Companies from "../app/Companies";
+import CompanyDetails from "../app/Companies/CompanyDetails";
+import { FiPackage } from "react-icons/fi";
+import SubscriptionHistory from "../app/Subscriptions/SubscriptionHistory";
+import SubscriptionPlans from "../app/Subscriptions/SubscriptionPlans";
 
 export const dashboardItems: DashboardItem[] = [
   {
@@ -38,74 +33,40 @@ export const dashboardItems: DashboardItem[] = [
     path: "notifications",
     element: <Notification />,
   },
+  {
+    name: "User Management",
+    path: "companies",
+    icon: TbUsersGroup,
+    element: <Companies />,
+    role: [ROLE.ADMIN],
+  },
+  {
+    path: "companies/:id",
+    element: <CompanyDetails />,
+    role: [ROLE.ADMIN],
+  },
 
   {
-    name: "Earnings",
-    path: "earnings",
-    icon: GiReceiveMoney,
+    name: "Subscriptions",
+    path: "subscriptions",
+    icon: MdWorkspacePremium,
     role: [ROLE.ADMIN],
     children: [
       {
-        name: "Transactions",
+        name: "All Plan's",
         path: "earnings/transactions",
-        icon: AiOutlineTransaction,
-        element: <Transactions />,
+        icon: FiPackage,
+        element: <SubscriptionPlans />,
         role: [ROLE.ADMIN],
       },
       {
-        name: "Withdraw Req",
+        name: "History",
         path: "earnings/withdraw-req",
-        icon: PiHandWithdrawBold,
-        element: <WithdrawReq />,
+        icon: MdOutlineHistoryEdu,
+        element: <SubscriptionHistory />,
         role: [ROLE.ADMIN],
       },
     ],
-  },
-  {
-    name: "Users",
-    path: "users",
-    icon: RiUserSettingsFill,
-    role: [ROLE.ADMIN],
-    children: [
-      {
-        name: "Passengers",
-        path: "users/passenger",
-        icon: HiOutlineUsers,
-        element: <Users viewType="rider" />,
-        role: [ROLE.ADMIN],
-      },
-      {
-        name: "Drivers",
-        path: "users/driver",
-        icon: TbUserShield,
-        element: <Users viewType="driver" />,
-        role: [ROLE.ADMIN],
-      },
-      {
-        path: "users/:view/:id",
-        element: <DriverDetails />,
-        role: [ROLE.ADMIN],
-      },
-    ],
-  },
-  {
-    name: "Verifications",
-    path: "verification",
-    icon: MdVerified,
-    role: [ROLE.ADMIN],
-    element: <RequestedLilst />,
-  },
-  {
-    path: "verification/:id",
-    role: [ROLE.ADMIN],
-    element: <DriverDetails />,
-  },
-  {
-    name: "Support",
-    path: "support",
-    icon: MdContactSupport,
-    role: [ROLE.ADMIN],
-    element: <Support />,
   },
 
   // settings

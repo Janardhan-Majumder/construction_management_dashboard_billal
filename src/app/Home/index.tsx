@@ -5,15 +5,20 @@ import { cn } from "../../utils/cn";
 import { formatTwoDigits } from "../../lib/helpers/getTwoDisit";
 import { CiDollar, CiMedicalCase } from "react-icons/ci";
 import { PiUsersThreeLight } from "react-icons/pi";
+import { useAppSelector } from "../../redux/hooks";
 
 const Home = () => {
+  const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading } = useAdminStatusQuery(undefined);
   const statusData = [
     {
       iconBg: "#F58220",
       icon: CiDollar,
-      category: "Total Sites",
-      total: `${formatTwoDigits({ num: data?.totalRevenue })}`,
+      category: user?.role === "admin" ? "Total Earnings" : "Total Sites",
+      total:
+        user?.role === "admin"
+          ? `$${formatTwoDigits({ num: data?.totalEarnings })}`
+          : `${formatTwoDigits({ num: data?.totalRevenue })}`,
     },
     {
       iconBg: "#7FB036",
@@ -24,8 +29,11 @@ const Home = () => {
     {
       iconBg: "#03A188",
       icon: CiMedicalCase,
-      category: "Total Projects",
-      total: `${formatTwoDigits({ num: data?.totalWithdrawals })}`,
+      category: user?.role === "admin" ? "Total Companies" : "Total Projects",
+      total:
+        user?.role === "admin"
+          ? `${formatTwoDigits({ num: data?.totalCompanies })}`
+          : `${formatTwoDigits({ num: data?.totalProjects })}`,
     },
   ];
   return (

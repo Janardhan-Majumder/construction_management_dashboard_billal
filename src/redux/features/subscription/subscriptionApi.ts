@@ -1,29 +1,12 @@
-import { buildQueryParams } from "../../../lib/helpers/paramsQueryBuilder";
-import type { TArgs } from "../../../types/common.type";
 import { baseApi } from "../../api/baseApi";
 
-const usersApi = baseApi.injectEndpoints({
+const subscriptionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // company
-    getAllCompanies: builder.query({
-      query: (args: TArgs) => {
-        const params = buildQueryParams(args);
+    companySubscription: builder.query({
+      query: ({ id }) => {
         return {
-          url: "admin/companies",
+          url: `admin/${id}/subscription`,
           method: "GET",
-          params,
-        };
-      },
-      // transformResponse: (response) => response.data,
-      providesTags: ["company"],
-    }),
-    getCompanyDetails: builder.query({
-      query: ({ id, args }) => {
-        const params = buildQueryParams(args);
-        return {
-          url: `admin/company/users/${id}`,
-          method: "GET",
-          params,
         };
       },
       transformResponse: (response) => response.data,
@@ -63,4 +46,4 @@ const usersApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllCompaniesQuery, useGetCompanyDetailsQuery } = usersApi;
+export const { useCompanySubscriptionQuery } = subscriptionApi;
