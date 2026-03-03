@@ -33,10 +33,11 @@ const Settings = () => {
   }, [user, form]);
 
   const onFinish: FormProps<TUniObject>["onFinish"] = async (values) => {
-    const payload = { ...values };
-    if (imageUrl) payload.image = imageUrl;
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(values));
+    if (fileList[0]) formData.append("image", fileList[0] as any);
     try {
-      await upMuation(payload).unwrap();
+      await upMuation(formData).unwrap();
       messageApi.open({
         key: "auth",
         type: "success",
@@ -126,7 +127,7 @@ const Settings = () => {
               )}
             >
               <img
-                src={imageUrl || user?.profilePicture}
+                src={imageUrl || user?.profileImage!}
                 onError={handleImageError}
                 alt="Profile"
                 className="w-full h-full object-cover rounded-full outline-2 outline-offset-1 outline-gray-300"
@@ -134,7 +135,6 @@ const Settings = () => {
               {editAble && (
                 <Upload {...props}>
                   <Button
-                    
                     variant="filled"
                     style={{ marginTop: 10 }}
                     shape="circle"

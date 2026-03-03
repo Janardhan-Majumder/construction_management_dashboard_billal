@@ -1,3 +1,5 @@
+import { buildQueryParams } from "../../../lib/helpers/paramsQueryBuilder";
+import type { TArgs } from "../../../types/common.type";
 import { baseApi } from "../../api/baseApi";
 
 const subscriptionApi = baseApi.injectEndpoints({
@@ -10,7 +12,19 @@ const subscriptionApi = baseApi.injectEndpoints({
         };
       },
       transformResponse: (response) => response.data,
-      providesTags: ["company"],
+      providesTags: ["subscription"],
+    }),
+    subscriptionHistory: builder.query({
+      query: (args: TArgs) => {
+        const params = buildQueryParams(args);
+        return {
+          url: `admin/user-subscriptions`,
+          method: "GET",
+          params,
+        };
+      },
+      transformResponse: (response) => response.data,
+      providesTags: ["subscription"],
     }),
     //  suspendCompany: builder.mutation({
     //   query: ({ id, status, reason }) => ({
@@ -46,4 +60,5 @@ const subscriptionApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCompanySubscriptionQuery } = subscriptionApi;
+export const { useCompanySubscriptionQuery, useSubscriptionHistoryQuery } =
+  subscriptionApi;

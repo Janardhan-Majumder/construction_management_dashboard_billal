@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useAppSelector } from "../../redux/hooks";
 import { ROLE, type TUniObject } from "../../types/common.type";
 import PageHeading from "../../components/ui/PageHeading";
-import { utilityHeading, utilityQuery } from "../../constants";
+import { utilityHeading } from "../../constants";
 import { useGetSettingQuery } from "../../redux/features/settings/settingApi";
 import LoaderWraperComp from "../../components/LoaderWraperComp";
 
@@ -12,9 +12,7 @@ const Utils = () => {
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const pathName = location.pathname.split("/")[2];
-  const { data, isLoading, isError } = useGetSettingQuery(
-    `legal-documents?type=${utilityQuery[pathName as keyof typeof utilityQuery]}`,
-  );
+  const { data, isLoading, isError } = useGetSettingQuery(`${pathName}`);
 
   return (
     <div className="min-h-[85vh] flex flex-col justify-between rounded-xl border border-secondery/50 py-4 shadow-sm">

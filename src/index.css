@@ -36,6 +36,10 @@
   justify-content: center;
   gap: 1px;
 }
+
+.no-tailwind * {
+  all: revert !important;
+}
 /* 
 a {
   font-weight: 500;

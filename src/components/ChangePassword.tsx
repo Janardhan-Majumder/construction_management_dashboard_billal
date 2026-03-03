@@ -8,8 +8,8 @@ import { errorAlert } from "../lib/helpers/alert";
 import { useAppContext } from "../lib/provider/ContextProvider";
 import { useEffect } from "react";
 type FieldType = {
-  oldPassword: string;
-  password: string;
+  currentPassword: string;
+  newPassword: string;
   confirmPassword: string;
 };
 const ChangePassword = ({

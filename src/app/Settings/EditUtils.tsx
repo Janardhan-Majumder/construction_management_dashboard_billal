@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useAppContext } from "../../lib/provider/ContextProvider";
 import { errorAlert } from "../../lib/helpers/alert";
 import PageHeading from "../../components/ui/PageHeading";
-import { utilityHeading, utilityQuery } from "../../constants";
+import { utilityHeading } from "../../constants";
 import type { TUniObject } from "../../types/common.type";
 import {
   useGetSettingQuery,
@@ -22,7 +22,7 @@ const EditUtils = () => {
   const pathName = location.pathname;
   const [mutation, { isLoading: muLoading }] = useUpdateSettingsMutation();
   const { data, isLoading, isError } = useGetSettingQuery(
-    `legal-documents?type=${utilityQuery[pathName.split("/")[2] as keyof typeof utilityQuery]}`,
+    `${pathName.split("/")[2]}`,
   );
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const EditUtils = () => {
   const handleSave = async () => {
     try {
       await mutation({
-        url: `legal-documents/${data.data._id}`,
+        url: `${pathName.split("/")[2]}/update`,
         body: { description: content },
       }).unwrap();
       messageApi.open({

@@ -14,7 +14,7 @@ const authApi = baseApi.injectEndpoints({
     }),
     upadateProfile: builder.mutation({
       query: (body) => ({
-        url: `users/profile`,
+        url: `users/edit-profile`,
         method: "PATCH",
         body,
       }),
