@@ -6,10 +6,20 @@ import { formatTwoDigits } from "../../lib/helpers/getTwoDisit";
 import { CiDollar, CiMedicalCase } from "react-icons/ci";
 import { PiUsersThreeLight } from "react-icons/pi";
 import { useAppSelector } from "../../redux/hooks";
+import { ROLE } from "../../types/common.type";
 
 const Home = () => {
   const { user } = useAppSelector((state) => state.auth);
-  const { data, isLoading } = useAdminStatusQuery(undefined);
+  const { data, isLoading } = useAdminStatusQuery(
+    {
+      args: undefined,
+      endpoint:
+        user?.role === ROLE.ADMIN
+          ? "admin/dashboard-stats"
+          : "office-admin/dashboard-stats",
+    },
+    { skip: !user?.role },
+  );
   const statusData = [
     {
       iconBg: "#F58220",
@@ -18,7 +28,7 @@ const Home = () => {
       total:
         user?.role === "admin"
           ? `$${formatTwoDigits({ num: data?.totalEarnings })}`
-          : `${formatTwoDigits({ num: data?.totalRevenue })}`,
+          : `${formatTwoDigits({ num: data?.totalSites })}`,
     },
     {
       iconBg: "#7FB036",

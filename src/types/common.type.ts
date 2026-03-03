@@ -7,7 +7,7 @@ export type TCommonProps = {
 };
 export const ROLE = {
   ADMIN: "admin",
-  DRIVER: "office_admin",
+  OFFICE_ADMIN: "office_admin",
 } as const;
 
 export type TUserRole = (typeof ROLE)[keyof typeof ROLE];

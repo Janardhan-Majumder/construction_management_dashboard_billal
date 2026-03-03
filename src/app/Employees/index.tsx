@@ -2,6 +2,7 @@ import PageHeading from "../../components/ui/PageHeading";
 import {
   Button,
   Dropdown,
+  Image,
   Input,
   Popconfirm,
   Table,
@@ -12,7 +13,7 @@ import { useAppContext } from "../../lib/provider/ContextProvider";
 import type { TQuery, TUniObject } from "../../types/common.type";
 import { HiDotsVertical } from "react-icons/hi";
 import { useNavigate } from "react-router";
-import { useGetAllCompaniesQuery } from "../../redux/features/Users/usersApi";
+import { useGetAllEmployeesQuery } from "../../redux/features/Users/usersApi";
 import { useState } from "react";
 import { queryFormat } from "../../lib/helpers/queryFormat";
 import { errorAlert } from "../../lib/helpers/alert";
@@ -21,17 +22,22 @@ import LoaderWraperComp from "../../components/LoaderWraperComp";
 import CPagination from "../../components/ui/CPagination";
 import { formatTwoDigits } from "../../lib/helpers/getTwoDisit";
 import { GoOrganization } from "react-icons/go";
+import { IoIosAddCircle } from "react-icons/io";
+import EmployeeModal from "../../components/dashboard/EmployeeModal";
 
-const Companies = () => {
+const Employees = () => {
   const navigate = useNavigate();
   const { messageApi } = useAppContext();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalData, setModalData] = useState<TUniObject | null>(null);
   const [query, setQuery] = useState<TQuery<TUniObject>>({
     page: 1,
     limit: 15,
   });
+
   //   const [suspendUser] = useSuspendUserMutation();
 
-  const { data, isLoading, isError, error } = useGetAllCompaniesQuery(
+  const { data, isLoading, isError, error } = useGetAllEmployeesQuery(
     queryFormat(query),
   );
 
@@ -49,12 +55,6 @@ const Companies = () => {
     }
   };
 
-  // const handleMenuClick = (exerciseId: string) => (info: any) => {
-  //   // if (info.key === "2") {
-  //   //   navigate(`edit-exercise/${exerciseId}`);
-  //   // }
-  //   console.log(exerciseId, info);
-  // };
   const columns: TableColumnsType = [
     // {
     //   title: "#ID",
@@ -66,30 +66,49 @@ const Companies = () => {
     //   ),
     // },
     {
-      title: "Company Name",
+      title: "Userame",
       dataIndex: ["name"],
-      render: (text: string) => <p>{text}</p>,
+      render: (text: string, record: TUniObject) => (
+        <div className="flex gap-3 items-center">
+          <Image src={record.profileImage} className="size-10! rounded-full" />
+          <p>
+            {text}
+            <br />
+            <span className="text-xs">{record.email}</span>
+          </p>
+        </div>
+      ),
     },
     {
-      title: "Email ",
-      dataIndex: ["email"],
+      title: "Phone No.",
+      dataIndex: ["phoneNumber"],
       render: (text: string) => <p>{text}</p>,
     },
     {
       title: "Address",
       dataIndex: "address",
-      render: (value) => (
-        <p>
-          {value || "N/A"}
-          {/* <span className="text-slate-600">({record.currency})</span> */}
-        </p>
-      ),
+      render: (value) => <p>{value || "N/A"}</p>,
       // align: "center",
     },
     {
-      title: "Phone No.",
-      dataIndex: ["phone"],
-      render: (text: string) => <p>{text}</p>,
+      title: "Role",
+      dataIndex: ["role"],
+      render: (text: string, record: TUniObject) => (
+        <div className="">
+          <p className="capitalize">{text.split("_").join(" ")}</p>
+          <span className="text-xs text-gray-500">{record.expertiseArea}</span>
+        </div>
+      ),
+    },
+    {
+      title: "Experience",
+      dataIndex: "experience",
+      render: (value) => <p>{value ? value + " Years" : "N/A"}</p>,
+    },
+    {
+      title: "Status",
+      dataIndex: ["isActive"],
+      render: (text: string) => <p>{text ? "Active" : "Inactive"}</p>,
     },
     {
       title: "Action",
@@ -100,34 +119,25 @@ const Companies = () => {
             items: [
               {
                 key: "1",
-                label: (
-                  <span
-                    onClick={() => {
-                      navigate(`/companies/${record._id}`);
-                    }}
-                  >
-                    View Details
-                  </span>
-                ),
+                label: <span onClick={() => {}}>Details</span>,
               },
               {
-                key: "2",
+                key: "3",
                 label: (
                   <Popconfirm
-                    title={`${record.status === "ACTIVE" ? "Suspend" : "Unsuspend"} ${record.name}`}
-                    description={`Are you sure you want to ${record.status === "ACTIVE" ? "suspend" : "activate"} this user?`}
+                    title={`Delete`}
+                    description={`Are you sure you want to delete this user?`}
                     onConfirm={() => confirm(record)}
                     onCancel={() => messageApi.error("Cancelled")}
-                    okText="Yes"
-                    cancelText="No"
+                    okText="Delete"
+                    cancelText="Cancel"
                     placement="bottomRight"
                     arrow={false}
                   >
-                    <span>
-                      {record.status === "ACTIVE" ? "Suspend" : "Unsuspend"}
-                    </span>
+                    <span>Delete</span>
                   </Popconfirm>
                 ),
+                danger: true,
               },
             ],
             // onClick: handleMenuClick(record._id),
@@ -146,20 +156,6 @@ const Companies = () => {
       align: "center",
     },
   ];
-  // const tempData: TUniObject[] = [];
-  // Array.from({ length: 10 }).forEach((_, index) => {
-  //   tempData.push({
-  //     transactionId: "#12345678",
-  //     user: { username: "Mr Victor", email: "user@gmail.com" },
-  //     userCategory: "Client",
-  //     accountNumber: "**** **** **** *545",
-  //     accountHolderName: "Victor",
-  //     address: "321/2A city house, District,country",
-  //     currency: "USD",
-  //     createdAt: "10-22-2024",
-  //     _id: index,
-  //   });
-  // });
   return (
     <div>
       <div className="flex gap-4 drop-shadow-xs border border-gray-100 bg-white rounded-lg p-4 2xl:p-6">
@@ -168,27 +164,16 @@ const Companies = () => {
         </div>
         <div className="space-y-1">
           <p className="text-2xl xl:text-3xl font-semibold capitalize">
-            Total All Companies
+            Total all Employees
           </p>
           <p className="text-2xl">
             {formatTwoDigits({ num: data?.meta?.total })}
           </p>
         </div>
       </div>
-      <div className="flex justify-between gap-2 pt-16 pb-4">
-        <PageHeading title={`All Companies`} hideIcon className="capitalize" />
+      <div className="flex justify-between gap-2 pt-8 pb-4">
+        <PageHeading title={`All Employees`} hideIcon className="capitalize" />
         <div className="flex justify-end gap-3">
-          {/* <DatePicker.RangePicker
-            onChange={(_value, string) =>
-              setQuery((c) => ({
-                ...c,
-                startDate: string[0],
-                endDate: string[1],
-              }))
-            }
-            className="w-55 rounded-full!"
-          /> */}
-
           <Input
             onChange={(e) =>
               debounceSearch({
@@ -202,6 +187,19 @@ const Companies = () => {
             suffix={<IoSearchOutline size={18} />}
             className="rounded-full! xl:w-64!"
           />
+          <Button
+            onClick={() => {
+              setOpenModal(true);
+              setModalData({ type: "create" });
+            }}
+            className="h-10! pb-0.5!"
+            shape="round"
+            variant="outlined"
+            color="primary"
+          >
+            Add Employee
+            <IoIosAddCircle className="size-4 mt-1" />
+          </Button>
         </div>
       </div>
       <LoaderWraperComp isError={isError} error={error}>
@@ -220,8 +218,13 @@ const Companies = () => {
         query={query}
         totalData={data?.meta?.total}
       />
+      <EmployeeModal
+        isModalOpen={openModal}
+        setIsModalOpen={setOpenModal}
+        modalData={modalData}
+      />
     </div>
   );
 };
 
-export default Companies;
+export default Employees;

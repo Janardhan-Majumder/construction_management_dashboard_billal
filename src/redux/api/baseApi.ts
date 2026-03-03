@@ -1,4 +1,4 @@
-import { accessToken } from './../../constants/index';
+import { accessToken } from "./../../constants/index";
 import { server_url } from "../../config";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -7,7 +7,9 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${server_url}`,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as { auth: { [accessToken]: string } }).auth[accessToken];
+      const token = (getState() as { auth: { [accessToken]: string } }).auth[
+        accessToken
+      ];
       // console.log(getState().auth.token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -16,6 +18,6 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["auth", "user", "setting", "company", "subscription"],
+  tagTypes: ["auth", "user", "setting", "company", "employee", "subscription"],
   endpoints: () => ({}),
 });

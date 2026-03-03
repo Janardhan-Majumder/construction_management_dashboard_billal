@@ -29,38 +29,34 @@ const usersApi = baseApi.injectEndpoints({
       transformResponse: (response) => response.data,
       providesTags: ["company"],
     }),
-    //  suspendCompany: builder.mutation({
-    //   query: ({ id, status, reason }) => ({
-    //     url: `/users/status`,
-    //     method: "PATCH",
-    //     body: { userId: id, status: status, rejectionReason: reason },
-    //   }),
-    //   invalidatesTags: ["company"],
-    // }),
-    // getAllUser: builder.query({
-    //   query: (args: TArgs) => {
-    //     const params = buildQueryParams(args);
-    //     return {
-    //       url: "users",
-    //       method: "GET",
-    //       params,
-    //     };
-    //   },
-    //   // transformResponse: (response) => response.data,
-    //   providesTags: ["user"],
-    // }),
-    // getUserDetails: builder.query({
-    //   query: ({ id }) => {
-    //     // const params = buildQueryParams(args);
-    //     return {
-    //       url: `/users/driver/${id}`,
-    //       method: "GET",
-    //     };
-    //   },
-    //   transformResponse: (response) => response.data,
-    //   providesTags: ["user"],
-    // }),
+    // employees
+    getAllEmployees: builder.query({
+      query: (args: TArgs) => {
+        const params = buildQueryParams(args);
+        console.log("hello");
+        return {
+          url: "office-admin/employes",
+          method: "GET",
+          params,
+        };
+      },
+      // transformResponse: (response) => response.data,
+      providesTags: ["employee"],
+    }),
+    addEmployee: builder.mutation({
+      query: (body) => ({
+        url: `office-admin/add-worker`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["auth"],
+    }),
   }),
 });
 
-export const { useGetAllCompaniesQuery, useGetCompanyDetailsQuery } = usersApi;
+export const {
+  useGetAllCompaniesQuery,
+  useGetCompanyDetailsQuery,
+  useGetAllEmployeesQuery,
+  useAddEmployeeMutation,
+} = usersApi;

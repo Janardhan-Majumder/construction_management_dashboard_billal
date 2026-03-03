@@ -5,16 +5,16 @@ import { buildQueryParams } from "../../../lib/helpers/paramsQueryBuilder";
 const othersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     adminStatus: builder.query({
-      query: (args: TArgs) => {
+      query: ({ args, endpoint }: { args: TArgs; endpoint: string }) => {
         const params = buildQueryParams(args);
         return {
-          url: "admin/dashboard-stats",
+          url: endpoint,
           method: "GET",
           params,
         };
       },
       transformResponse: (response) => response.data,
-      providesTags: [ "user"],
+      providesTags: ["user"],
     }),
     // getWithdrawRequest: builder.query({
     //   query: (args) => {

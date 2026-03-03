@@ -20,6 +20,7 @@ import CompanyDetails from "../app/Companies/CompanyDetails";
 import { FiPackage } from "react-icons/fi";
 import SubscriptionHistory from "../app/Subscriptions/SubscriptionHistory";
 import SubscriptionPlans from "../app/Subscriptions/SubscriptionPlans";
+import Employees from "../app/Employees";
 
 export const dashboardItems: DashboardItem[] = [
   {
@@ -27,14 +28,14 @@ export const dashboardItems: DashboardItem[] = [
     path: "/",
     icon: LuMonitorCog,
     element: <Home />,
-    role: [ROLE.ADMIN],
+    role: [ROLE.ADMIN, ROLE.OFFICE_ADMIN],
   },
   {
     path: "notifications",
     element: <Notification />,
   },
   {
-    name: "User Management",
+    name: "Companies",
     path: "companies",
     icon: TbUsersGroup,
     element: <Companies />,
@@ -44,6 +45,13 @@ export const dashboardItems: DashboardItem[] = [
     path: "companies/:id",
     element: <CompanyDetails />,
     role: [ROLE.ADMIN],
+  },
+  {
+    name: "Employee Management",
+    path: "employees",
+    icon: TbUsersGroup,
+    element: <Employees />,
+    role: [ROLE.OFFICE_ADMIN],
   },
 
   {

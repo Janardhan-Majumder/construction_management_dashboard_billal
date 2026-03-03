@@ -19,13 +19,21 @@ import {
 import { useAdminStatusQuery } from "../../redux/features/others/othersApi";
 import LoaderWraperComp from "../LoaderWraperComp";
 import { useAppSelector } from "../../redux/hooks";
+import { ROLE } from "../../types/common.type";
 
 const EarningBarChart = ({ className }: { className?: string }) => {
   const { user } = useAppSelector((state) => state.auth);
   const [cartYear, setCartYear] = useState(new Date().getFullYear());
-  const { data, isLoading, isError, error } = useAdminStatusQuery([
-    { name: "year", value: cartYear },
-  ]);
+  const { data, isLoading, isError, error } = useAdminStatusQuery(
+    {
+      args: [{ name: "year", value: cartYear }],
+      endpoint:
+        user?.role === ROLE.ADMIN
+          ? "admin/dashboard-stats"
+          : "office-admin/dashboard-stats",
+    },
+    { skip: !user?.role },
+  );
 
   const onChange: DatePickerProps["onChange"] = (_date, dateString) => {
     setCartYear(new Date(dateString as string).getFullYear());
@@ -53,7 +61,9 @@ const EarningBarChart = ({ className }: { className?: string }) => {
   return (
     <div className={cn("", className)}>
       <div className="flex justify-between items-center mb-6 px-4">
-        <h4 className="text-2xl font-medium">{user?.role === "admin" ? "Users Ratio" :"Projects Ratio" }</h4>
+        <h4 className="text-2xl font-medium">
+          {user?.role === "admin" ? "Users Ratio" : "Projects Ratio"}
+        </h4>
         <DatePicker
           prefix={"Year"}
           placeholder="Year"
