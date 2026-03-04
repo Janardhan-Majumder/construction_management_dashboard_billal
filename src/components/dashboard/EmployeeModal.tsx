@@ -18,6 +18,9 @@ const EmployeeModal = ({
   const [form] = Form.useForm();
   const { messageApi } = useAppContext();
   const [addMutation, { isLoading }] = useAddEmployeeMutation();
+
+  const isViewMode = modalData?.type === "view";
+
   const onFinish: FormProps<TUniObject>["onFinish"] = async (values) => {
     try {
       await addMutation(values).unwrap();
@@ -32,7 +35,15 @@ const EmployeeModal = ({
       errorAlert({ error: error });
     }
   };
-  useEffect(() => form.resetFields(), [isModalOpen]);
+
+  useEffect(() => {
+    if (modalData?.type === "view" && modalData) {
+      form.setFieldsValue(modalData);
+    } else {
+      form.resetFields();
+    }
+  }, [isModalOpen, modalData, form]);
+
   return (
     <DashboardModal
       isModalOpen={isModalOpen}
@@ -41,13 +52,17 @@ const EmployeeModal = ({
       onClose={() => setIsModalOpen(false)}
     >
       <h1 className="text-2xl text-center">
-        {modalData?.type === "create" ? "Add Employee" : "Employee Details"}
+        {modalData?.type === "create"
+          ? "Add Employee"
+          : "Employee Details"}
       </h1>
-      <div className="w-full mt-2">
+
+      <div className="w-full my-2">
         <Form
           form={form}
           layout="vertical"
           onFinish={onFinish}
+          disabled={isViewMode}   // 🔥 This makes everything read-only
           initialValues={{
             employmentType: "Full-time",
             role: "worker",
@@ -60,6 +75,7 @@ const EmployeeModal = ({
           >
             <Input placeholder="Enter full name" />
           </Form.Item>
+
           <Form.Item
             label="Email"
             name="email"
@@ -70,19 +86,17 @@ const EmployeeModal = ({
           >
             <Input placeholder="Enter email" />
           </Form.Item>
+
           <Form.Item
             label="Phone Number"
             name="phoneNumber"
             rules={[
               { required: true, message: "Phone number is required" },
-              //   {
-              //     pattern: /^01[3-9]\d{8}$/,
-              //     message: "Enter valid BD phone number",
-              //   },
             ]}
           >
             <Input placeholder="01XXXXXXXXX" />
           </Form.Item>
+
           <Form.Item
             label="Address"
             name="address"
@@ -90,6 +104,7 @@ const EmployeeModal = ({
           >
             <Input placeholder="Enter address" />
           </Form.Item>
+
           <Form.Item
             label="Role"
             name="role"
@@ -104,6 +119,7 @@ const EmployeeModal = ({
               ]}
             />
           </Form.Item>
+
           <Form.Item
             label="Experience (Years)"
             name="experience"
@@ -111,6 +127,7 @@ const EmployeeModal = ({
           >
             <InputNumber min={0} style={{ width: "100%" }} />
           </Form.Item>
+
           <Form.Item
             label="Expertise Area"
             name="expertiseArea"
@@ -118,6 +135,7 @@ const EmployeeModal = ({
           >
             <Input placeholder="e.g., React, Backend, UI/UX" />
           </Form.Item>
+
           <Form.Item
             label="Employment Type"
             name="employmentType"
@@ -132,21 +150,31 @@ const EmployeeModal = ({
               ]}
             />
           </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              { required: true, message: "Password is required" },
-              { min: 6, message: "Password must be at least 6 characters" },
-            ]}
-          >
-            <Input.Password placeholder="Enter password" />
-          </Form.Item>
-          <Form.Item>
-            <Button loading={isLoading} type="primary" htmlType="submit" block>
-              Submit
-            </Button>
-          </Form.Item>
+
+          {/* Hide password & submit button in view mode */}
+          {!isViewMode && (
+            <>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  { required: true, message: "Password is required" },
+                  { min: 6, message: "Password must be at least 6 characters" },
+                ]}
+              >
+                <Input.Password placeholder="Enter password" />
+              </Form.Item>
+
+              <Button
+                loading={isLoading}
+                type="primary"
+                htmlType="submit"
+                block
+              >
+                Submit
+              </Button>
+            </>
+          )}
         </Form>
       </div>
     </DashboardModal>

@@ -2,7 +2,7 @@ import Home from "../app/Home";
 import Notification from "../app/Notification";
 import type { DashboardItem } from "../types/sidebar.type";
 import { ROLE } from "../types/common.type";
-import { LuMonitorCog, LuSettings } from "react-icons/lu";
+import { LuListRestart, LuMonitorCog, LuSettings } from "react-icons/lu";
 import { RiShieldUserLine } from "react-icons/ri";
 import {
   MdOutlineHistoryEdu,
@@ -21,6 +21,12 @@ import { FiPackage } from "react-icons/fi";
 import SubscriptionHistory from "../app/Subscriptions/SubscriptionHistory";
 import SubscriptionPlans from "../app/Subscriptions/SubscriptionPlans";
 import Employees from "../app/Employees";
+import { VscFolderActive } from "react-icons/vsc";
+import ActiveSites from "../app/ActiveSites";
+import { GoTasklist } from "react-icons/go";
+import AssignedSites from "../app/Tasks/AssignedSites";
+import AssignedDetails from "../app/Tasks/AssignedDetails";
+import ReassignedTasks from "../app/Tasks/ReassignedTasks";
 
 export const dashboardItems: DashboardItem[] = [
   {
@@ -53,7 +59,32 @@ export const dashboardItems: DashboardItem[] = [
     element: <Employees />,
     role: [ROLE.OFFICE_ADMIN],
   },
-
+  {
+    name: "Active Sites",
+    path: "active-sites",
+    icon: VscFolderActive,
+    element: <ActiveSites />,
+    role: [ROLE.OFFICE_ADMIN],
+  },
+  {
+    name: "Assigned Task",
+    path: "assigned-task",
+    icon: GoTasklist,
+    element: <AssignedSites />,
+    role: [ROLE.OFFICE_ADMIN],
+  },
+  {
+    path: "/assigned-task/:id",
+    element: <AssignedDetails />,
+    role: [ROLE.OFFICE_ADMIN],
+  },
+  // {
+  //   name: "Reassined Task",
+  //   path: "reassigned-task",
+  //   icon: LuListRestart,
+  //   element: <ReassignedTasks />,
+  //   role: [ROLE.OFFICE_ADMIN],
+  // },
   {
     name: "Subscriptions",
     path: "subscriptions",

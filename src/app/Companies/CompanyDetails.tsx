@@ -82,15 +82,7 @@ const CompanyDetails = () => {
       align: "center",
     },
   ];
-  const subscription = {
-    activeDate: "01/01/26",
-    endDate: "01/06/26",
-    months: 6,
-    label: "Months Subscription",
-    savePercent: 15,
-    price: 500,
-    perYearPrice: 800,
-  };
+
   return (
     <div>
       <PageHeading
@@ -246,7 +238,9 @@ const CompanyDetails = () => {
                   <p className="text-5xl font-light text-gray-800 leading-tight mt-1">
                     {subcriptionData?.plan?.duration / 30}
                   </p>
-                  <p className="text-sm text-gray-500">{subscription.label}</p>
+                  <p className="text-sm text-gray-500">
+                    {"Months Subscription"}
+                  </p>
                   <p className="text-2xl font-semibold text-teal-500 mt-3 tracking-wide">
                     $ {subcriptionData?.plan?.price}
                   </p>
