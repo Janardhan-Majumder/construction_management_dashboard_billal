@@ -26,14 +26,14 @@ const subscriptionApi = baseApi.injectEndpoints({
       transformResponse: (response) => response.data,
       providesTags: ["subscription"],
     }),
-    //  suspendCompany: builder.mutation({
-    //   query: ({ id, status, reason }) => ({
-    //     url: `/users/status`,
-    //     method: "PATCH",
-    //     body: { userId: id, status: status, rejectionReason: reason },
-    //   }),
-    //   invalidatesTags: ["company"],
-    // }),
+    createSubscription: builder.mutation({
+      query: (body) => ({
+        url: `subscription/create`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["subscription"],
+    }),
     // getAllUser: builder.query({
     //   query: (args: TArgs) => {
     //     const params = buildQueryParams(args);
@@ -60,5 +60,8 @@ const subscriptionApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCompanySubscriptionQuery, useSubscriptionHistoryQuery } =
-  subscriptionApi;
+export const {
+  useCompanySubscriptionQuery,
+  useSubscriptionHistoryQuery,
+  useCreateSubscriptionMutation,
+} = subscriptionApi;
