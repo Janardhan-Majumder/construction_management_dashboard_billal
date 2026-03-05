@@ -189,99 +189,99 @@ const ActiveSites = () => {
           />
         </div>
         <div className="max-w-5xl mx-auto p-6">
-      {/* Header */}
-      <div className="bg-white shadow-lg rounded-2xl p-6 mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">
-          {modalData?.siteTitle || "N/A"}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          Owned by {modalData?.siteOwner || "N/A"}
-        </p>
-
-        <div className="flex flex-wrap gap-3 mt-4">
-          <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-600">
-            {modalData?.buildingType || "N/A"}
-          </span>
-
-          <span
-            className={`px-3 py-1 text-sm rounded-full ${
-              status === "To-Do"
-                ? "bg-yellow-100 text-yellow-700"
-                : status === "Completed"
-                ? "bg-green-100 text-green-600"
-                : "bg-gray-100 text-gray-600"
-            }`}
-          >
-            {status || "Unknown"}
-          </span>
-        </div>
-      </div>
-
-      {/* Info Section */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Location */}
-        <div className="bg-white shadow-md rounded-2xl p-6">
-          <h2 className="text-lg font-semibold mb-4">Location</h2>
-
-          <div className="space-y-2 text-gray-600">
-            <p>
-              <span className="font-medium text-gray-800">Address:</span>{" "}
-              {modalData?.location?.address || "N/A"}
+          {/* Header */}
+          <div className="bg-white shadow-lg rounded-2xl p-6 mb-6">
+            <h1 className="text-3xl font-bold text-gray-800">
+              {modalData?.siteTitle || "N/A"}
+            </h1>
+            <p className="text-gray-500 mt-1">
+              Owned by {modalData?.siteOwner || "N/A"}
             </p>
-            <p>
-              <span className="font-medium text-gray-800">Latitude:</span>{" "}
-              {modalData?.location?.coordinates?.lat ?? "N/A"}
-            </p>
-            <p>
-              <span className="font-medium text-gray-800">Longitude:</span>{" "}
-              {modalData?.location?.coordinates?.lng ?? "N/A"}
-            </p>
-          </div>
-        </div>
 
-        {/* Project Info */}
-        <div className="bg-white shadow-md rounded-2xl p-6">
-          <h2 className="text-lg font-semibold mb-4">Project Info</h2>
+            <div className="flex flex-wrap gap-3 mt-4">
+              <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-600">
+                {modalData?.buildingType || "N/A"}
+              </span>
 
-          <div className="space-y-2 text-gray-600">
-            <p>
-              <span className="font-medium text-gray-800">End Date:</span>{" "}
-              {modalData?.endDate
-                ? new Date(modalData?.endDate).toLocaleDateString()
-                : "N/A"}
-            </p>
-            <p>
-              <span className="font-medium text-gray-800">Created At:</span>{" "}
-              {modalData?.createdAt
-                ? new Date(modalData?.createdAt).toLocaleDateString()
-                : "N/A"}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Photos */}
-      {modalData?.photos?.length > 0 && (
-        <div className="bg-white shadow-md rounded-2xl p-6 mt-6">
-          <h2 className="text-lg font-semibold mb-4">Project Photos</h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {modalData?.photos.map((photo: string, index: number) => (
-              <div
-                key={index}
-                className="overflow-hidden rounded-xl shadow hover:shadow-lg transition"
+              <span
+                className={`px-3 py-1 text-sm rounded-full ${
+                  status === "To-Do"
+                    ? "bg-yellow-100 text-yellow-700"
+                    : status === "Completed"
+                      ? "bg-green-100 text-green-600"
+                      : "bg-gray-100 text-gray-600"
+                }`}
               >
-                <img
-                  src={photo}
-                  alt="Site"
-                  className="w-full h-48 object-cover hover:scale-105 transition duration-300"
-                />
-              </div>
-            ))}
+                {status || "Unknown"}
+              </span>
+            </div>
           </div>
+
+          {/* Info Section */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Location */}
+            <div className="bg-white shadow-md rounded-2xl p-6">
+              <h2 className="text-lg font-semibold mb-4">Location</h2>
+
+              <div className="space-y-2 text-gray-600">
+                <p>
+                  <span className="font-medium text-gray-800">Address:</span>{" "}
+                  {modalData?.location?.address || "N/A"}
+                </p>
+                <p>
+                  <span className="font-medium text-gray-800">Latitude:</span>{" "}
+                  {modalData?.location?.coordinates?.lat ?? "N/A"}
+                </p>
+                <p>
+                  <span className="font-medium text-gray-800">Longitude:</span>{" "}
+                  {modalData?.location?.coordinates?.lng ?? "N/A"}
+                </p>
+              </div>
+            </div>
+
+            {/* Project Info */}
+            <div className="bg-white shadow-md rounded-2xl p-6">
+              <h2 className="text-lg font-semibold mb-4">Project Info</h2>
+
+              <div className="space-y-2 text-gray-600">
+                <p>
+                  <span className="font-medium text-gray-800">End Date:</span>{" "}
+                  {modalData?.endDate
+                    ? new Date(modalData?.endDate).toLocaleDateString()
+                    : "N/A"}
+                </p>
+                <p>
+                  <span className="font-medium text-gray-800">Created At:</span>{" "}
+                  {modalData?.createdAt
+                    ? new Date(modalData?.createdAt).toLocaleDateString()
+                    : "N/A"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Photos */}
+          {modalData?.photos?.length > 0 && (
+            <div className="bg-white shadow-md rounded-2xl p-6 mt-6">
+              <h2 className="text-lg font-semibold mb-4">Project Photos</h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {modalData?.photos.map((photo: string, index: number) => (
+                  <div
+                    key={index}
+                    className="overflow-hidden rounded-xl shadow hover:shadow-lg transition"
+                  >
+                    <img
+                      src={photo}
+                      alt="Site"
+                      className="w-full h-48 object-cover hover:scale-105 transition duration-300"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
       </DashboardModal>
     </div>
   );

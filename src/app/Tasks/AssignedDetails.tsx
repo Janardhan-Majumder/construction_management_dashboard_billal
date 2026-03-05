@@ -8,15 +8,18 @@ import LoaderWraperComp from "../../components/LoaderWraperComp";
 import { debounceSearch } from "../../utils/debounce";
 import type { TQuery, TUniObject } from "../../types/common.type";
 import { queryFormat } from "../../lib/helpers/queryFormat";
-import { BsInfoLg, BsTelephone } from "react-icons/bs";
+import { BsInfo, BsTelephone } from "react-icons/bs";
 import { useGetAssinedUserDetailsQuery } from "../../redux/features/tasks/tasksApi";
 import { CiLocationOn, CiMail } from "react-icons/ci";
 import { PiBriefcaseThin } from "react-icons/pi";
 import { handleImageError } from "../../lib/handleImageError";
+import DashboardModal from "../../components/DashboardModal";
+import { LuCalendarDays } from "react-icons/lu";
 
 const AssignedDetails = () => {
   const { id } = useParams();
-
+  const [openModal, setOpenModal] = useState(false);
+  const [modalData, setModalData] = useState<TUniObject | null>(null);
   const [query, setQuery] = useState<TQuery<TUniObject>>({
     page: 1,
     limit: 15,
@@ -25,6 +28,10 @@ const AssignedDetails = () => {
     id: id!,
     args: queryFormat(query),
   });
+  const showModal = (record: TUniObject) => {
+    setModalData(record);
+    setOpenModal(true);
+  };
   const columns: TableColumnsType = [
     {
       title: "Site Name",
@@ -57,7 +64,16 @@ const AssignedDetails = () => {
       title: "Status",
       dataIndex: ["status"],
       render: (text: string) => <p>{text}</p>,
-      align: "center"
+      align: "center",
+    },
+    {
+      title: "Details",
+      render: (record) => (
+        <Button onClick={() => showModal(record)} shape="circle" size="small">
+          <BsInfo className="size-5 ml-[1px]" />
+        </Button>
+      ),
+      align: "center",
     },
   ];
 
@@ -167,6 +183,94 @@ const AssignedDetails = () => {
         query={query}
         totalData={data?.meta?.total}
       />
+      <DashboardModal
+        isModalOpen={openModal}
+        setIsModalOpen={setOpenModal}
+        maxWidth="600px"
+      >
+        {/* <div className="w-full">
+          <PageHeading
+            title="Site Details"
+            hideIcon
+            className="justify-center pb-2.5"
+          />
+        </div> */}
+
+        {/* Header */}
+        <div className="flex items-start justify-between mt-8 mb-4">
+          <h2 className="text-base font-semibold text-gray-700">
+            Task Details
+          </h2>
+          <p
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs bg-green-100 font-medium`}
+          >
+            <span className={`w-1.5 h-1.5 rounded-full bg-green-600`} />
+            {modalData?.status}
+          </p>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-gray-100 mb-5" />
+
+        {/* Title */}
+        <div className="flex justify-between gap-3 mb-4">
+          <div>
+            <p className="text-xs text-gray-400 mb-1">Title</p>
+            <p className="text-sm font-semibold text-gray-800 capitalize">
+              {modalData?.title}
+            </p>
+          </div>
+          <Button href={modalData?.fileId?.fileUrl} target="_blank" color="blue" variant="filled" shape="round" >
+            Download file
+          </Button>
+        </div>
+
+        {/* Description */}
+        <div className="mb-5">
+          <p className="text-xs text-gray-400 mb-1">Description</p>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            {modalData?.description}
+          </p>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-gray-100 mb-5" />
+
+        {/* Dates */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+            <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0 text-blue-400">
+              <LuCalendarDays className="size-5" />
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 mb-0.5">Created At</p>
+              <p className="text-sm font-medium text-gray-700">
+                {new Date(modalData?.createdAt).toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+            <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center flex-shrink-0 text-orange-400">
+              <LuCalendarDays className="size-5" />
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 mb-0.5">Due Date</p>
+              <p className="text-sm font-medium text-gray-700">
+                {new Date(modalData?.dueDate).toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
+          </div>
+        </div>
+      </DashboardModal>
     </div>
   );
 };

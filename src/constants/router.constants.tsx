@@ -2,7 +2,7 @@ import Home from "../app/Home";
 import Notification from "../app/Notification";
 import type { DashboardItem } from "../types/sidebar.type";
 import { ROLE } from "../types/common.type";
-import { LuListRestart, LuMonitorCog, LuSettings } from "react-icons/lu";
+import { LuMonitorCog, LuSettings } from "react-icons/lu";
 import { RiShieldUserLine } from "react-icons/ri";
 import {
   MdOutlineHistoryEdu,
@@ -26,7 +26,6 @@ import ActiveSites from "../app/ActiveSites";
 import { GoTasklist } from "react-icons/go";
 import AssignedSites from "../app/Tasks/AssignedSites";
 import AssignedDetails from "../app/Tasks/AssignedDetails";
-import ReassignedTasks from "../app/Tasks/ReassignedTasks";
 
 export const dashboardItems: DashboardItem[] = [
   {
@@ -93,14 +92,14 @@ export const dashboardItems: DashboardItem[] = [
     children: [
       {
         name: "All Plan's",
-        path: "earnings/transactions",
+        path: "subscriptions/all-plan",
         icon: FiPackage,
         element: <SubscriptionPlans />,
         role: [ROLE.ADMIN],
       },
       {
         name: "History",
-        path: "earnings/withdraw-req",
+        path: "subscriptions/history",
         icon: MdOutlineHistoryEdu,
         element: <SubscriptionHistory />,
         role: [ROLE.ADMIN],
